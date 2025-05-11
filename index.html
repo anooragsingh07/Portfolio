@@ -234,6 +234,45 @@
             border-color: #23283b;
             background: var(--bg);
         }
+        .tech-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(34,197,94,0.07);
+            border-radius: 12px;
+            padding: 1rem 1.1rem 0.7rem 1.1rem;
+            box-shadow: 0 2px 8px rgba(34,197,94,0.08);
+            transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+            cursor: pointer;
+            min-width: 80px;
+            min-height: 90px;
+        }
+        .tech-badge img {
+            width: 38px;
+            height: 38px;
+            margin-bottom: 0.2rem;
+            transition: transform 0.18s;
+            filter: none;
+        }
+        .tech-badge span {
+            font-size: 1.01rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+        .tech-badge:hover {
+            background: var(--accent);
+            box-shadow: 0 4px 18px rgba(34,197,94,0.18);
+            transform: translateY(-6px) scale(1.07);
+        }
+        .tech-badge:hover span {
+            color: #fff;
+        }
+        .tech-badge:hover img {
+            transform: scale(1.18) rotate(-8deg);
+            filter: none;
+        }
     </style>
 </head>
 <body>
@@ -266,23 +305,61 @@
 
             <h2>projects</h2>
             <ul>
-                <li><a href="#">cpu-schedsim</a>: c++ cpu scheduling simulator (fcfs, sjf, round-robin, priority)</li>
-                <li><a href="#">personal portfolio</a>: built using html and tailwind css</li>
-                <li><a href="#">landing pages</a>: built using html, tailwind css, and bootstrap</li>
+                <li><a href="https://github.com/anooragsingh07/CPU-SchedSim--CPU-Scheduling-Simulator-" target="_blank">cpu-schedsim</a>: c++ cpu scheduling simulator (fcfs, sjf, round-robin, priority)</li>
+                <li><a href="https://anooragsingh07.github.io/Portfolio/" target="_blank">personal portfolio</a>: built using html and tailwind css</li>
+                <li><a href="https://anooragsingh07.github.io/Login-Page-using-Tailwind/" target="_blank">landing pages</a>: built using html, tailwind css, and bootstrap</li>
             </ul>
 
             <h2>skills</h2>
-            <div class="skills">c++, html, css, javascript, git, github, dsa, oop</div>
+            <ul>
+                <li><b>Languages:</b> C++, C</li>
+                <li><b>Core Subjects:</b> Operating Systems, Computer Networks, Design & Analysis of Algorithms, Digital Electronics, Computer Architecture, Data Structures & Algorithms, Object-Oriented Programming.</li>
+                <li><b>Web Technologies:</b> HTML, CSS, Tailwind CSS, Bootstrap.</li>
+                <li><b>Tools:</b> Git, GitHub, Visual Studio Code.</li>
+            </ul>
 
             <h2>contact</h2>
             <div class="contact">
-                <div class="contact-row"><span class="contact-label">email:</span> <a href="mailto:anooragsingh0007@gmail.com">anooragsingh0007@gmail.com</a></div>
+                <div class="contact-row"><span class="contact-label">email:</span> 
+                    <a href="https://mail.google.com/mail/?view=cm&to=anooragsingh0007@gmail.com" target="_blank" id="gmail-link">anooragsingh0007@gmail.com</a>
+                </div>
                 <div class="contact-row"><span class="contact-label">phone:</span> <a href="tel:9571375741">+91 9571375741</a></div>
-                <div class="contact-row"><span class="contact-label">linkedin:</span> <a href="https://www.linkedin.com/in/anooragsingh/" target="_blank">linkedin.com/in/your-profile</a></div>
-                <div class="contact-row"><span class="contact-label">github:</span> <a href="https://github.com/anooragsingh07" target="_blank">github.com/your-username</a></div>
+                <div class="contact-row"><span class="contact-label">linkedin:</span> <a href="https://www.linkedin.com/in/anooragsingh/" target="_blank">linkedin.com/in/anooragsingh</a></div>
+                <div class="contact-row"><span class="contact-label">github:</span> <a href="https://github.com/anooragsingh07" target="_blank">github.com/anooragsingh07</a></div>
                 <a class="resume-link" href="resume.pdf" download><span>download resume</span></a>
             </div>
         </div>
+    </div>
+    <!-- Tech Stack Visualizer -->
+    <div class="page-border" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+      <div class="container" id="tech-stack-visualizer">
+        <h2 style="color: var(--accent);">tech stack</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: center; margin-top: 1.5rem;">
+          <div class="tech-badge" title="C++"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"/><span>C++</span></div>
+          <div class="tech-badge" title="C"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C"/><span>C</span></div>
+          <div class="tech-badge" title="HTML5"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"/><span>HTML5</span></div>
+          <div class="tech-badge" title="CSS3"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"/><span>CSS3</span></div>
+          <div class="tech-badge" title="Tailwind CSS"><img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="Tailwind CSS"/><span>Tailwind</span></div>
+          <div class="tech-badge" title="Bootstrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap"/><span>Bootstrap</span></div>
+          <div class="tech-badge" title="Git"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"/><span>Git</span></div>
+          <div class="tech-badge" title="GitHub"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="background:#fff; border-radius:50%;"/><span>GitHub</span></div>
+          <div class="tech-badge" title="VS Code"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"/><span>VS Code</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Guess the Number Game -->
+    <div class="page-border" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+      <div class="container" id="guess-game-container">
+        <h2 style="color: var(--accent);">guess the number game</h2>
+        <p>I'm thinking of a number between <b>1</b> and <b>100</b>. Can you guess it?</p>
+        <div style="display: flex; gap: 0.7rem; align-items: center; margin-bottom: 1rem;">
+          <input id="guess-input" type="number" min="1" max="100" placeholder="Enter your guess" style="padding: 0.5rem 1rem; border-radius: 6px; border: 1.5px solid var(--section-border); font-size: 1.1rem; width: 160px; outline: none;" />
+          <button id="guess-btn" style="background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.5rem 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;">Guess</button>
+          <button id="reset-btn" style="background: var(--link); color: #fff; border: none; border-radius: 6px; padding: 0.5rem 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;">Reset</button>
+        </div>
+        <div id="guess-feedback" style="font-size: 1.1rem; font-weight: 600; min-height: 1.5em; color: var(--accent);"></div>
+        <div id="guess-history" style="margin-top: 1rem; color: var(--text); font-size: 0.98rem;"></div>
+      </div>
     </div>
     <script>
         // Theme toggle
@@ -355,6 +432,70 @@
             requestAnimationFrame(draw);
         }
         draw();
+        // Guess the Number Game Logic
+        (function() {
+          const min = 1, max = 100;
+          let number = Math.floor(Math.random() * (max - min + 1)) + min;
+          let attempts = 0;
+          let history = [];
+          const input = document.getElementById('guess-input');
+          const btn = document.getElementById('guess-btn');
+          const reset = document.getElementById('reset-btn');
+          const feedback = document.getElementById('guess-feedback');
+          const historyDiv = document.getElementById('guess-history');
+
+          function updateHistory() {
+            if (history.length > 0) {
+              historyDiv.innerHTML = 'Your guesses: ' + history.join(', ');
+            } else {
+              historyDiv.innerHTML = '';
+            }
+          }
+
+          function resetGame() {
+            number = Math.floor(Math.random() * (max - min + 1)) + min;
+            attempts = 0;
+            history = [];
+            feedback.textContent = '';
+            input.value = '';
+            updateHistory();
+            input.disabled = false;
+            btn.disabled = false;
+            input.focus();
+          }
+
+          btn.onclick = function() {
+            const guess = parseInt(input.value, 10);
+            if (isNaN(guess) || guess < min || guess > max) {
+              feedback.textContent = 'Please enter a valid number between 1 and 100!';
+              feedback.style.color = '#e11d48';
+              return;
+            }
+            attempts++;
+            history.push(guess);
+            updateHistory();
+            if (guess < number) {
+              feedback.textContent = 'Too low! Try a higher number.';
+              feedback.style.color = 'var(--link)';
+            } else if (guess > number) {
+              feedback.textContent = 'Too high! Try a lower number.';
+              feedback.style.color = 'var(--link)';
+            } else {
+              feedback.textContent = `🎉 Correct! You guessed it in ${attempts} attempts.`;
+              feedback.style.color = 'var(--accent)';
+              input.disabled = true;
+              btn.disabled = true;
+            }
+            input.value = '';
+            input.focus();
+          };
+
+          reset.onclick = resetGame;
+          input.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') btn.click();
+          });
+          resetGame();
+        })();
     </script>
 </body>
 </html> 
