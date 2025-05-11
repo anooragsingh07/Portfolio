@@ -1,78 +1,79 @@
-<<<<<<< HEAD
-# Portfolio
-A responsive and modern portfolio website to showcase my projects, skills, and resume. Built with HTML, CSS, JavaScript , and hosted on GitHub Pages.
-=======
-# Modern Portfolio Website
+# 💼 Personal Portfolio Website
 
-A modern, responsive, and professional portfolio website built with HTML, CSS, and JavaScript. Features include dark/light theme toggle, smooth scrolling, animations, and a contact form.
+A sleek, responsive, and modern personal portfolio website to showcase my projects, skills, experience, and resume. Built with **HTML**, **CSS**, and **JavaScript**, and deployed via **GitHub Pages**.
 
-## Features
+## 🚀 Features
 
-- 🎨 Clean and modern design
-- 🌓 Dark/Light theme toggle
-- 📱 Fully responsive
-- ⚡ Smooth scrolling
-- ✨ Animations and transitions
-- 📝 Contact form
-- 📊 Timeline for education and experience
-- 🎯 Project cards
-- 💡 Skills showcase
-- 📥 Resume download button
+* 🎨 Modern UI with smooth animations
+* 🌓 Dark/Light mode toggle
+* 📱 Mobile-first responsive design
+* 🧾 Resume download option
+* 📊 Education & experience timeline
+* 💼 Project gallery with links
+* 💬 Contact form with email integration
+* 🌐 Social media links
 
-## Getting Started
+## 📸 Preview
 
-1. Clone this repository
-2. Replace the placeholder content in `index.html` with your information
-3. Add your profile picture as `profile.jpg` in the root directory
-4. Add your resume as `resume.pdf` in the root directory
-5. Update social media links in the HTML file
-6. Customize colors and styles in `styles.css` if desired
+![Website Preview](preview.png)
+[🔗 View Live](https://yourusername.github.io/your-repo-name/)
 
-## Customization
+## 🛠️ Setup Instructions
 
-### Colors
-The color scheme can be modified in the `:root` and `.dark-mode` CSS variables in `styles.css`:
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+   cd your-repo-name
+   ```
+
+2. **Customize**
+
+   * Replace content in `index.html` with your personal info
+   * Add your image as `profile.jpg`
+   * Upload your resume as `resume.pdf`
+   * Update social links in HTML
+
+3. **Deploy on GitHub Pages**
+
+   * Go to **Settings → Pages**
+   * Select branch `main` and folder `/ (root)`
+   * Save and visit the provided link
+
+## 🎨 Customization
+
+Edit the `:root` and `.dark-mode` sections in `styles.css` to change colors.
 
 ```css
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #1e40af;
-    --text-color: #1f2937;
-    --bg-color: #ffffff;
-    --card-bg: #f3f4f6;
+  --primary-color: #2563eb;
+  --bg-color: #ffffff;
+  --text-color: #1f2937;
+}
+.dark-mode {
+  --bg-color: #111827;
+  --text-color: #f9fafb;
 }
 ```
 
-### Profile Picture
-Replace the `profile.jpg` file with your own image. The recommended size is 400x400 pixels.
+## 📂 Folder Structure
 
-### Resume
-Add your resume PDF file as `resume.pdf` in the root directory.
-
-### Social Links
-Update the social media links in the HTML file:
-
-```html
-<div class="social-links">
-    <a href="https://linkedin.com/in/your-profile" target="_blank"><i class="fab fa-linkedin"></i></a>
-    <a href="https://github.com/your-username" target="_blank"><i class="fab fa-github"></i></a>
-    <a href="mailto:your-email@example.com"><i class="fas fa-envelope"></i></a>
-</div>
+```
+📁 root
+├── index.html
+├── styles.css
+├── script.js
+├── profile.jpg
+└── resume.pdf
 ```
 
-## Browser Support
+## 🧪 Browser Compatibility
 
-The website is compatible with all modern browsers:
-- Chrome
-- Firefox
-- Safari
-- Edge
+* ✅ Chrome
+* ✅ Firefox
+* ✅ Edge
+* ✅ Safari
 
-## Contributing
+## 📝 License
 
-Feel free to submit issues and enhancement requests!
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
->>>>>>> 27afad5 (Initial commit: portfolio website)
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
