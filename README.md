@@ -1,8 +1,8 @@
-# 💼 Personal Portfolio Website
+ Personal Portfolio Website
 
 A sleek, responsive, and modern personal portfolio website to showcase my projects, skills, experience, and resume. Built with **HTML**, **CSS**, and **JavaScript**, and deployed via **GitHub Pages**.
 
-## 🚀 Features
+##  Features
 
 * 🎨 Modern UI with smooth animations
 * 🌓 Dark/Light mode toggle
@@ -13,10 +13,6 @@ A sleek, responsive, and modern personal portfolio website to showcase my projec
 * 💬 Contact form with email integration
 * 🌐 Social media links
 
-## 📸 Preview
-
-![Website Preview](preview.png)
-[🔗 View Live](https://yourusername.github.io/your-repo-name/)
 
 ## 🛠️ Setup Instructions
 
@@ -39,22 +35,6 @@ A sleek, responsive, and modern personal portfolio website to showcase my projec
    * Go to **Settings → Pages**
    * Select branch `main` and folder `/ (root)`
    * Save and visit the provided link
-
-## 🎨 Customization
-
-Edit the `:root` and `.dark-mode` sections in `styles.css` to change colors.
-
-```css
-:root {
-  --primary-color: #2563eb;
-  --bg-color: #ffffff;
-  --text-color: #1f2937;
-}
-.dark-mode {
-  --bg-color: #111827;
-  --text-color: #f9fafb;
-}
-```
 
 ## 📂 Folder Structure
 
