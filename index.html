@@ -363,29 +363,9 @@
         </div>
       </div>
     </div>
-    <!-- Guess the Number Game -->
-    <div class="page-border" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
-      <div class="container" id="guess-game-container">
-        <h2 style="color: var(--accent);">guess the number game</h2>
-        <p>I'm thinking of a number between <b>1</b> and <b>100</b>. Can you guess it?</p>
-        <div style="display: flex; gap: 0.7rem; align-items: center; margin-bottom: 1rem;">
-          <input id="guess-input" type="number" min="1" max="100" placeholder="Enter your guess" style="padding: 0.5rem 1rem; border-radius: 6px; border: 1.5px solid var(--section-border); font-size: 1.1rem; width: 160px; outline: none;" />
-          <button id="guess-btn" style="background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 0.5rem 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;">Guess</button>
-          <button id="reset-btn" style="background: var(--link); color: #fff; border: none; border-radius: 6px; padding: 0.5rem 1.2rem; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;">Reset</button>
-        </div>
-        <div id="guess-feedback" style="font-size: 1.1rem; font-weight: 600; min-height: 1.5em; color: var(--accent);"></div>
-        <div id="guess-history" style="margin-top: 1rem; color: var(--text); font-size: 0.98rem;"></div>
-      </div>
-    </div>
-    <!-- Chrome Dino Game Clone -->
-    <div class="page-border" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
-      <div class="container" id="dino-game-container">
-        <h2 style="color: var(--accent);">dino game</h2>
-        <div id="dino-game" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(34,197,94,0.08); margin: 0 auto; width: 100%; max-width: 480px; height: 160px; position: relative; overflow: hidden; border: 2px solid var(--section-border);">
-          <canvas id="dino-canvas" width="480" height="160" style="display:block;"></canvas>
-        </div>
-        <div style="margin-top: 1rem; color: var(--text); font-size: 1.01rem;">Press <b>Space</b> or <b>Tap</b> to jump!</div>
-      </div>
+    <!-- Solar System Animation (blended, no visible boundaries) -->
+    <div style="width:100vw;overflow:hidden;position:relative;margin-top:120px;margin-bottom:0;z-index:0;">
+      <canvas id="solar-canvas" width="1600" height="420" style="display:block; margin:0 auto; background: none; pointer-events: none; position: relative; left: 50%; transform: translateX(-50%); z-index:0;"></canvas>
     </div>
     <script>
         // Theme toggle
@@ -458,70 +438,6 @@
             requestAnimationFrame(draw);
         }
         draw();
-        // Guess the Number Game Logic
-        (function() {
-          const min = 1, max = 100;
-          let number = Math.floor(Math.random() * (max - min + 1)) + min;
-          let attempts = 0;
-          let history = [];
-          const input = document.getElementById('guess-input');
-          const btn = document.getElementById('guess-btn');
-          const reset = document.getElementById('reset-btn');
-          const feedback = document.getElementById('guess-feedback');
-          const historyDiv = document.getElementById('guess-history');
-
-          function updateHistory() {
-            if (history.length > 0) {
-              historyDiv.innerHTML = 'Your guesses: ' + history.join(', ');
-            } else {
-              historyDiv.innerHTML = '';
-            }
-          }
-
-          function resetGame() {
-            number = Math.floor(Math.random() * (max - min + 1)) + min;
-            attempts = 0;
-            history = [];
-            feedback.textContent = '';
-            input.value = '';
-            updateHistory();
-            input.disabled = false;
-            btn.disabled = false;
-            input.focus();
-          }
-
-          btn.onclick = function() {
-            const guess = parseInt(input.value, 10);
-            if (isNaN(guess) || guess < min || guess > max) {
-              feedback.textContent = 'Please enter a valid number between 1 and 100!';
-              feedback.style.color = '#e11d48';
-              return;
-            }
-            attempts++;
-            history.push(guess);
-            updateHistory();
-            if (guess < number) {
-              feedback.textContent = 'Too low! Try a higher number.';
-              feedback.style.color = 'var(--link)';
-            } else if (guess > number) {
-              feedback.textContent = 'Too high! Try a lower number.';
-              feedback.style.color = 'var(--link)';
-            } else {
-              feedback.textContent = `🎉 Correct! You guessed it in ${attempts} attempts.`;
-              feedback.style.color = 'var(--accent)';
-              input.disabled = true;
-              btn.disabled = true;
-            }
-            input.value = '';
-            input.focus();
-          };
-
-          reset.onclick = resetGame;
-          input.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') btn.click();
-          });
-          resetGame();
-        })();
         // Gmail copy only
         const gmailLink = document.getElementById('gmail-link');
         const copySuccess = document.getElementById('copy-success');
@@ -532,106 +448,114 @@
             setTimeout(() => { copySuccess.style.display = 'none'; }, 1500);
           });
         };
-        // Chrome Dino Game Clone
+        // Solar System Animation with Stars (always visible)
         (function() {
-          const canvas = document.getElementById('dino-canvas');
+          const canvas = document.getElementById('solar-canvas');
           if (!canvas) return;
           const ctx = canvas.getContext('2d');
           const w = canvas.width, h = canvas.height;
-          let dino = { x: 40, y: h-60, vy: 0, width: 44, height: 44, jumping: false };
-          let gravity = 0.9, jumpPower = -13, ground = h-16, score = 0, gameOver = false;
-          let obstacles = [], speed = 6, frame = 0;
-          function drawDino() {
+          const cx = w/2, cy = h/2+30;
+          const sun = { r: 48, color: '#FFD700', glow: '#fff9c4' };
+          const planets = [
+            { r: 10, orbit: 120, color: '#bdbdbd', speed: 0.018, phase: 0 }, // Mercury
+            { r: 15, orbit: 180, color: '#eab308', speed: 0.014, phase: 1 }, // Venus
+            { r: 18, orbit: 240, color: '#22c55e', speed: 0.011, phase: 2 }, // Earth
+            { r: 13, orbit: 295, color: '#e25822', speed: 0.009, phase: 3 }, // Mars
+            { r: 28, orbit: 370, color: '#fbbf24', speed: 0.006, phase: 4 }, // Jupiter
+            { r: 22, orbit: 440, color: '#a3a3a3', speed: 0.005, phase: 5 }, // Saturn
+            { r: 17, orbit: 510, color: '#60a5fa', speed: 0.004, phase: 6 }, // Uranus
+            { r: 15, orbit: 570, color: '#6366f1', speed: 0.003, phase: 7 }  // Neptune
+          ];
+          // Star field
+          const starCount = 180;
+          const stars = Array.from({length: starCount}, () => ({
+            x: Math.random()*w,
+            y: Math.random()*h,
+            r: Math.random()*1.5+0.5,
+            twinkle: Math.random()*2*Math.PI,
+            speed: 0.008 + Math.random()*0.012
+          }));
+          function drawStars(t) {
             ctx.save();
-            ctx.fillStyle = '#22c55e';
-            ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
-            ctx.fillStyle = '#23272f';
-            ctx.fillRect(dino.x+30, dino.y+10, 8, 8); // eye
+            for (let s of stars) {
+              ctx.beginPath();
+              let alpha = 0.7 + 0.3*Math.sin(t*s.speed + s.twinkle);
+              ctx.globalAlpha = alpha;
+              ctx.arc(s.x, s.y, s.r, 0, 2*Math.PI);
+              ctx.fillStyle = '#fff';
+              ctx.fill();
+            }
+            ctx.globalAlpha = 1;
             ctx.restore();
           }
-          function drawObstacle(obs) {
+          function drawSun() {
             ctx.save();
-            ctx.fillStyle = '#2563eb';
-            ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            ctx.shadowColor = sun.glow;
+            ctx.shadowBlur = 80;
+            ctx.beginPath();
+            ctx.arc(cx, cy, sun.r, 0, 2*Math.PI);
+            ctx.fillStyle = sun.color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            ctx.restore();
+            // Sun core
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, sun.r-10, 0, 2*Math.PI);
+            ctx.fillStyle = '#fffde7';
+            ctx.fill();
             ctx.restore();
           }
-          function resetGame() {
-            dino.y = ground - dino.height;
-            dino.vy = 0;
-            dino.jumping = false;
-            obstacles = [];
-            score = 0;
-            speed = 6;
-            frame = 0;
-            gameOver = false;
-          }
-          function jump() {
-            if (!dino.jumping && !gameOver) {
-              dino.vy = jumpPower;
-              dino.jumping = true;
+          function drawPlanet(planet, angle, index) {
+            const px = cx + planet.orbit * Math.cos(angle);
+            const py = cy + planet.orbit * Math.sin(angle);
+            ctx.save();
+            ctx.shadowColor = '#0002';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(px, py, planet.r, 0, 2*Math.PI);
+            ctx.fillStyle = planet.color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            // Saturn's ring
+            if (index === 5) {
+              ctx.save();
+              ctx.translate(px, py);
+              ctx.rotate(-0.5);
+              ctx.beginPath();
+              ctx.ellipse(0, 0, planet.r*2.2, planet.r*0.7, 0, 0, 2*Math.PI);
+              ctx.lineWidth = 4.5;
+              ctx.strokeStyle = 'rgba(200,200,160,0.7)';
+              ctx.stroke();
+              ctx.restore();
             }
-            if (gameOver) {
-              resetGame();
-            }
+            ctx.restore();
+            // Orbit path (subtle)
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, planet.orbit, 0, 2*Math.PI);
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.globalAlpha = 0.10;
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([4, 8]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.globalAlpha = 1;
+            ctx.restore();
           }
-          function update() {
+          let t = 0;
+          function animate() {
             ctx.clearRect(0,0,w,h);
-            // ground
-            ctx.fillStyle = '#e5e7eb';
-            ctx.fillRect(0, ground, w, h-ground);
-            // dino
-            dino.y += dino.vy;
-            dino.vy += gravity;
-            if (dino.y >= ground - dino.height) {
-              dino.y = ground - dino.height;
-              dino.vy = 0;
-              dino.jumping = false;
-            }
-            drawDino();
-            // obstacles
-            if (frame % 70 === 0) {
-              let height = 30 + Math.random()*30;
-              obstacles.push({ x: w, y: ground-height, width: 18+Math.random()*18, height: height });
-            }
-            for (let i=0; i<obstacles.length; i++) {
-              let obs = obstacles[i];
-              obs.x -= speed;
-              drawObstacle(obs);
-              // collision
-              if (
-                dino.x < obs.x + obs.width &&
-                dino.x + dino.width > obs.x &&
-                dino.y < obs.y + obs.height &&
-                dino.y + dino.height > obs.y
-              ) {
-                gameOver = true;
-              }
-            }
-            obstacles = obstacles.filter(obs => obs.x + obs.width > 0);
-            // score
-            if (!gameOver) score++;
-            ctx.fillStyle = '#22c55e';
-            ctx.font = 'bold 20px Fira Mono, monospace';
-            ctx.fillText('Score: ' + Math.floor(score/10), 10, 30);
-            if (gameOver) {
-              ctx.fillStyle = '#e11d48';
-              ctx.font = 'bold 32px Fira Mono, monospace';
-              ctx.fillText('Game Over', w/2-90, h/2-10);
-              ctx.font = 'bold 18px Fira Mono, monospace';
-              ctx.fillStyle = '#23272f';
-              ctx.fillText('Press Space or Tap to Restart', w/2-120, h/2+20);
-            }
-            frame++;
-            if (frame % 300 === 0 && speed < 14) speed += 0.5;
-            requestAnimationFrame(update);
+            drawStars(t);
+            drawSun();
+            planets.forEach((planet, i) => {
+              const angle = t * planet.speed + planet.phase;
+              drawPlanet(planet, angle, i);
+            });
+            t += 1.1;
+            requestAnimationFrame(animate);
           }
-          document.addEventListener('keydown', function(e) {
-            if (e.code === 'Space') jump();
-          });
-          canvas.addEventListener('touchstart', jump);
-          canvas.addEventListener('mousedown', jump);
-          resetGame();
-          update();
+          animate();
         })();
     </script>
 </body>
