@@ -381,7 +381,7 @@
         }
         function setThemeIcon() {
             themeIcon.innerHTML = isDark
-                ? `<svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2m11-11h-2M3 12H1m16.95 7.07l-1.41-1.41M6.34 6.34L4.93 4.93m12.02 0l-1.41 1.41M6.34 17.66l-1.41 1.41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+                ? `<svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5" stroke-width="2"/><g stroke-width="2"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g></svg>`
                 : `<svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
         }
         themeToggle.onclick = () => {
@@ -448,7 +448,7 @@
             setTimeout(() => { copySuccess.style.display = 'none'; }, 1500);
           });
         };
-        // Solar System Animation with Stars (always visible)
+        // Solar System Animation with 3D/realistic planets
         (function() {
           const canvas = document.getElementById('solar-canvas');
           if (!canvas) return;
@@ -510,13 +510,60 @@
             const px = cx + planet.orbit * Math.cos(angle);
             const py = cy + planet.orbit * Math.sin(angle);
             ctx.save();
+            // 3D/realistic shading
+            let grad = ctx.createRadialGradient(px-planet.r/2, py-planet.r/2, planet.r/3, px, py, planet.r);
+            // Mercury
+            if(index === 0) {
+              grad.addColorStop(0, '#e0e0e0'); grad.addColorStop(1, '#bdbdbd');
+            }
+            // Venus
+            else if(index === 1) {
+              grad.addColorStop(0, '#fffbe6'); grad.addColorStop(1, '#eab308');
+            }
+            // Earth
+            else if(index === 2) {
+              grad.addColorStop(0, '#b3e5fc'); grad.addColorStop(0.5, '#22c55e'); grad.addColorStop(1, '#1565c0');
+            }
+            // Mars
+            else if(index === 3) {
+              grad.addColorStop(0, '#ffb199'); grad.addColorStop(1, '#e25822');
+            }
+            // Jupiter
+            else if(index === 4) {
+              grad.addColorStop(0, '#fffbe6'); grad.addColorStop(0.3, '#fbbf24'); grad.addColorStop(0.7, '#eab308'); grad.addColorStop(1, '#b08968');
+            }
+            // Saturn
+            else if(index === 5) {
+              grad.addColorStop(0, '#f5e7b2'); grad.addColorStop(1, '#a3a3a3');
+            }
+            // Uranus
+            else if(index === 6) {
+              grad.addColorStop(0, '#e0f7fa'); grad.addColorStop(1, '#60a5fa');
+            }
+            // Neptune
+            else if(index === 7) {
+              grad.addColorStop(0, '#b3bcf5'); grad.addColorStop(1, '#6366f1');
+            }
             ctx.shadowColor = '#0002';
             ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(px, py, planet.r, 0, 2*Math.PI);
-            ctx.fillStyle = planet.color;
+            ctx.fillStyle = grad;
             ctx.fill();
             ctx.shadowBlur = 0;
+            // Jupiter bands
+            if(index === 4) {
+              ctx.save();
+              ctx.globalAlpha = 0.25;
+              ctx.strokeStyle = '#fff';
+              for(let b=0;b<3;b++){
+                ctx.beginPath();
+                ctx.arc(px, py, planet.r-3-b*3, 0.1, Math.PI-0.1);
+                ctx.lineWidth = 2.2-b*0.5;
+                ctx.stroke();
+              }
+              ctx.restore();
+            }
             // Saturn's ring
             if (index === 5) {
               ctx.save();
