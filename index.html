@@ -336,7 +336,8 @@
             <h2>contact</h2>
             <div class="contact">
                 <div class="contact-row"><span class="contact-label">email:</span> 
-                    <a href="https://mail.google.com/mail/?view=cm&to=anooragsingh0007@gmail.com" target="_blank" id="gmail-link">anooragsingh0007@gmail.com</a>
+                    <a href="#" id="gmail-link">anooragsingh0007@gmail.com</a>
+                    <span id="copy-success" style="display:none;color:#22c55e;margin-left:6px;font-size:0.95em;">Copied!</span>
                 </div>
                 <div class="contact-row"><span class="contact-label">phone:</span> <a href="tel:9571375741">+91 9571375741</a></div>
                 <div class="contact-row"><span class="contact-label">linkedin:</span> <a href="https://www.linkedin.com/in/anooragsingh/" target="_blank">linkedin.com/in/anooragsingh</a></div>
@@ -374,6 +375,16 @@
         </div>
         <div id="guess-feedback" style="font-size: 1.1rem; font-weight: 600; min-height: 1.5em; color: var(--accent);"></div>
         <div id="guess-history" style="margin-top: 1rem; color: var(--text); font-size: 0.98rem;"></div>
+      </div>
+    </div>
+    <!-- Chrome Dino Game Clone -->
+    <div class="page-border" style="margin-top: 2.5rem; margin-bottom: 2.5rem;">
+      <div class="container" id="dino-game-container">
+        <h2 style="color: var(--accent);">dino game</h2>
+        <div id="dino-game" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(34,197,94,0.08); margin: 0 auto; width: 100%; max-width: 480px; height: 160px; position: relative; overflow: hidden; border: 2px solid var(--section-border);">
+          <canvas id="dino-canvas" width="480" height="160" style="display:block;"></canvas>
+        </div>
+        <div style="margin-top: 1rem; color: var(--text); font-size: 1.01rem;">Press <b>Space</b> or <b>Tap</b> to jump!</div>
       </div>
     </div>
     <script>
@@ -510,6 +521,117 @@
             if (e.key === 'Enter') btn.click();
           });
           resetGame();
+        })();
+        // Gmail copy only
+        const gmailLink = document.getElementById('gmail-link');
+        const copySuccess = document.getElementById('copy-success');
+        gmailLink.onclick = function(e) {
+          e.preventDefault();
+          navigator.clipboard.writeText('anooragsingh0007@gmail.com').then(function() {
+            copySuccess.style.display = 'inline';
+            setTimeout(() => { copySuccess.style.display = 'none'; }, 1500);
+          });
+        };
+        // Chrome Dino Game Clone
+        (function() {
+          const canvas = document.getElementById('dino-canvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width, h = canvas.height;
+          let dino = { x: 40, y: h-60, vy: 0, width: 44, height: 44, jumping: false };
+          let gravity = 0.9, jumpPower = -13, ground = h-16, score = 0, gameOver = false;
+          let obstacles = [], speed = 6, frame = 0;
+          function drawDino() {
+            ctx.save();
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(dino.x, dino.y, dino.width, dino.height);
+            ctx.fillStyle = '#23272f';
+            ctx.fillRect(dino.x+30, dino.y+10, 8, 8); // eye
+            ctx.restore();
+          }
+          function drawObstacle(obs) {
+            ctx.save();
+            ctx.fillStyle = '#2563eb';
+            ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            ctx.restore();
+          }
+          function resetGame() {
+            dino.y = ground - dino.height;
+            dino.vy = 0;
+            dino.jumping = false;
+            obstacles = [];
+            score = 0;
+            speed = 6;
+            frame = 0;
+            gameOver = false;
+          }
+          function jump() {
+            if (!dino.jumping && !gameOver) {
+              dino.vy = jumpPower;
+              dino.jumping = true;
+            }
+            if (gameOver) {
+              resetGame();
+            }
+          }
+          function update() {
+            ctx.clearRect(0,0,w,h);
+            // ground
+            ctx.fillStyle = '#e5e7eb';
+            ctx.fillRect(0, ground, w, h-ground);
+            // dino
+            dino.y += dino.vy;
+            dino.vy += gravity;
+            if (dino.y >= ground - dino.height) {
+              dino.y = ground - dino.height;
+              dino.vy = 0;
+              dino.jumping = false;
+            }
+            drawDino();
+            // obstacles
+            if (frame % 70 === 0) {
+              let height = 30 + Math.random()*30;
+              obstacles.push({ x: w, y: ground-height, width: 18+Math.random()*18, height: height });
+            }
+            for (let i=0; i<obstacles.length; i++) {
+              let obs = obstacles[i];
+              obs.x -= speed;
+              drawObstacle(obs);
+              // collision
+              if (
+                dino.x < obs.x + obs.width &&
+                dino.x + dino.width > obs.x &&
+                dino.y < obs.y + obs.height &&
+                dino.y + dino.height > obs.y
+              ) {
+                gameOver = true;
+              }
+            }
+            obstacles = obstacles.filter(obs => obs.x + obs.width > 0);
+            // score
+            if (!gameOver) score++;
+            ctx.fillStyle = '#22c55e';
+            ctx.font = 'bold 20px Fira Mono, monospace';
+            ctx.fillText('Score: ' + Math.floor(score/10), 10, 30);
+            if (gameOver) {
+              ctx.fillStyle = '#e11d48';
+              ctx.font = 'bold 32px Fira Mono, monospace';
+              ctx.fillText('Game Over', w/2-90, h/2-10);
+              ctx.font = 'bold 18px Fira Mono, monospace';
+              ctx.fillStyle = '#23272f';
+              ctx.fillText('Press Space or Tap to Restart', w/2-120, h/2+20);
+            }
+            frame++;
+            if (frame % 300 === 0 && speed < 14) speed += 0.5;
+            requestAnimationFrame(update);
+          }
+          document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') jump();
+          });
+          canvas.addEventListener('touchstart', jump);
+          canvas.addEventListener('mousedown', jump);
+          resetGame();
+          update();
         })();
     </script>
 </body>
