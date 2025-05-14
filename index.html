@@ -383,12 +383,11 @@
         const themeIcon = document.getElementById('theme-icon');
         const body = document.body;
         let isDark = false;
-        // Load theme from localStorage
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            isDark = true;
-            setThemeIcon();
-        }
+        // Always default to light mode on load
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+        isDark = false;
+        setThemeIcon();
         function setThemeIcon() {
             themeIcon.innerHTML = isDark
                 ? `<svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5" stroke-width="2"/><g stroke-width="2"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g></svg>`
